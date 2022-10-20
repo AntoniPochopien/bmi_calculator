@@ -12,14 +12,15 @@ class BmiCalc extends StatefulWidget {
 }
 
 class _BmiCalcState extends State<BmiCalc> {
+  final _formKey = GlobalKey<FormState>();
   double heightValue = 160;
   double weightValue = 60;
   double heightMax = 250.00;
   double weightMax = 200.00;
-  TextEditingController heightController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
   int heightUnit = 0;
   int weightUnit = 0;
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
 
   @override
   void initState() {
@@ -29,6 +30,9 @@ class _BmiCalcState extends State<BmiCalc> {
   }
 
   double bmiResult(double personHeight, double personWeight) {
+    if (personHeight == 0) {
+      return 0.0;
+    }
     if (heightUnit != 0) {
       personHeight = personHeight * 30.48;
     }
@@ -80,22 +84,22 @@ class _BmiCalcState extends State<BmiCalc> {
     if (result < 16.0) {
       return 'Wygłodzenie';
     }
-    if (result >= 16 && result <= 16.9) {
+    if (result >= 16 && result <= 17) {
       return 'Wychudzenie';
     }
     if (result >= 17 && result <= 18.5) {
       return 'Niedowaga';
     }
-    if (result >= 18.6 && result <= 24.9) {
+    if (result >= 18.5 && result <= 25) {
       return 'Waga prawidłowa';
     }
-    if (result >= 25 && result <= 29.9) {
+    if (result >= 25 && result <= 30) {
       return 'Nadwaga';
     }
-    if (result >= 30 && result <= 34.9) {
+    if (result >= 30 && result <= 35) {
       return 'Otyłość I stopnia';
     }
-    if (result >= 35 && result <= 39.9) {
+    if (result >= 35 && result <= 40) {
       return 'Otyłość II stopnia';
     }
     if (result >= 40) {
@@ -115,175 +119,218 @@ class _BmiCalcState extends State<BmiCalc> {
           child: Container(
             width: double.infinity,
             height: screenSize.height * 1,
-            child: Column(children: [
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
-              ),
-              const Text(
-                'Twoje BMI:',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white),
-              ),
-              Text(
-                '${bmiResult(heightValue, weightValue)}',
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white),
-              ),
-              Text(
-                bmiGroup(bmiResult(heightValue, weightValue)),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white),
-              ),
-              Container(
-                //color: Colors.pink,
-                height: screenSize.height * 0.55,
-                child: Row(
-                  children: [
-                    Expanded(flex: 1, child: SizedBox()),
-                    Expanded(
-                      flex: 3,
-                      child: BmiIcon(
-                        bmiResult(heightValue, weightValue),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: RotatedBox(
-                        quarterTurns: 3,
-                        child: Slider(
-                          value: heightValue,
-                          min: 0,
-                          max: heightMax,
-                          onChanged: (value) => setState(() {
-                            this.heightValue =
-                                double.parse(value.toStringAsFixed(2));
-                            heightController.text = value.toStringAsFixed(2);
-                          }),
-                        ),
-                      ),
-                    )
-                  ],
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top,
                 ),
-              ),
-              Slider(
-                value: weightValue,
-                min: 0,
-                max: weightMax,
-                onChanged: (value) => setState(() {
-                  this.weightValue = double.parse(value.toStringAsFixed(2));
-                  weightController.text = value.toStringAsFixed(2);
-                }),
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 50,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 2, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            controller: heightController,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              filled: true,
-                              fillColor: Colors.white,
-                            ),
-                            onChanged: (value) => setState(
-                                () => heightValue = double.parse(value)),
+                const Text(
+                  'Twoje BMI:',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.white),
+                ),
+                Text(
+                  '${bmiResult(heightValue, weightValue)}',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.white),
+                ),
+                Text(
+                  bmiGroup(bmiResult(heightValue, weightValue)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.white),
+                ),
+                Container(
+                  //color: Colors.pink,
+                  height: screenSize.height * 0.55,
+                  child: Row(
+                    children: [
+                      Expanded(flex: 1, child: SizedBox()),
+                      Expanded(
+                        flex: 3,
+                        child: BmiIcon(
+                          bmiResult(heightValue, weightValue),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: RotatedBox(
+                          quarterTurns: 3,
+                          child: Slider(
+                            value: heightValue,
+                            min: 0,
+                            max: heightMax,
+                            onChanged: (value) => setState(() {
+                              this.heightValue =
+                                  double.parse(value.toStringAsFixed(2));
+                              heightController.text = value.toStringAsFixed(2);
+                            }),
                           ),
                         ),
-                        Expanded(
-                            flex: 1,
-                            child: Container(
-                              child: DropdownButton(
-                                dropdownColor: Colors.grey[700],
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text('cm',
-                                        style: TextStyle(color: Colors.white)),
-                                    value: 0,
+                      )
+                    ],
+                  ),
+                ),
+                Slider(
+                  value: weightValue,
+                  min: 0,
+                  max: weightMax,
+                  onChanged: (value) => setState(() {
+                    this.weightValue = double.parse(value.toStringAsFixed(2));
+                    weightController.text = value.toStringAsFixed(2);
+                  }),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !RegExp('^[0-9.]+').hasMatch(value) ||
+                                        value.contains(RegExp(
+                                            r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
+                                        double.parse(value) > heightMax ||
+                                        value.length > 5) {
+                                      return 'Błąd';
+                                    }
+                                  },
+                                  controller: heightController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    filled: true,
+                                    fillColor: Colors.white,
                                   ),
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      'ft',
-                                      style: TextStyle(color: Colors.white),
+                                  onChanged: (value) {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() =>
+                                          heightValue = double.parse(value));
+                                    }
+                                  }),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Container(
+                                  child: DropdownButton(
+                                    dropdownColor: Colors.grey[700],
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text('cm',
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        value: 0,
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          'ft',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        value: 1,
+                                      ),
+                                    ],
+                                    value: heightUnit,
+                                    onChanged: (value) =>
+                                        dropdownCallBackHeight(value),
+                                  ),
+                                )),
+                            Expanded(flex: 2, child: SizedBox()),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 36,
+                      ),
+                      Container(
+                        height: 50,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 2, child: SizedBox()),
+                            Expanded(
+                              flex: 2,
+                              child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        !RegExp('^[0-9.]+').hasMatch(value) ||
+                                        value.contains(RegExp(
+                                            r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
+                                        value.startsWith('.') ||
+                                        double.parse(value) > weightMax ||
+                                        value.length > 5) {
+                                      return 'Błąd';
+                                    }
+                                  },
+                                  controller: weightController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      filled: true,
+                                      fillColor: Colors.white),
+                                  onChanged: (value) {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() =>
+                                          weightValue = double.parse(value));
+                                    }
+                                  }),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: DropdownButton(
+                                  dropdownColor: Colors.grey[700],
+                                  items: [
+                                    DropdownMenuItem(
+                                      child: Text('kg',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      value: 0,
                                     ),
-                                    value: 1,
-                                  ),
-                                ],
-                                value: heightUnit,
-                                onChanged: (value) =>
-                                    dropdownCallBackHeight(value),
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        'lb',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      value: 1,
+                                    ),
+                                  ],
+                                  value: weightUnit,
+                                  onChanged: (value) =>
+                                      dropdownCallBackWeight(value),
+                                ),
                               ),
-                            )),
-                        Expanded(flex: 2, child: SizedBox()),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 36,
-                  ),
-                  Container(
-                    height: 50,
-                    child: Row(
-                      children: [
-                        Expanded(flex: 2, child: SizedBox()),
-                        Expanded(
-                          flex: 2,
-                          child: TextFormField(
-                            controller: weightController,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5)),
-                                filled: true,
-                                fillColor: Colors.white),
-                            onChanged: (value) => setState(
-                                () => weightValue = double.parse(value)),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: DropdownButton(
-                              dropdownColor: Colors.grey[700],
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text('kg',
-                                      style: TextStyle(color: Colors.white)),
-                                  value: 0,
-                                ),
-                                DropdownMenuItem(
-                                  child: Text(
-                                    'lb',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  value: 1,
-                                ),
-                              ],
-                              value: weightUnit,
-                              onChanged: (value) =>
-                                  dropdownCallBackWeight(value),
                             ),
-                          ),
+                            Expanded(flex: 2, child: SizedBox()),
+                          ],
                         ),
-                        Expanded(flex: 2, child: SizedBox()),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              )
-            ]),
+                )
+              ],
+            ),
           ),
         ),
       ),
