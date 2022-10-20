@@ -210,16 +210,19 @@ class _BmiCalcState extends State<BmiCalc> {
                                             r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
                                         double.parse(value) > heightMax ||
                                         value.length > 6) {
-                                      return 'Błąd';
+                                      return '';
                                     }
                                   },
                                   controller: heightController,
                                   keyboardType: TextInputType.number,
+                                  style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
+                                    errorStyle: TextStyle(height: 0),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    filled: true,
-                                    fillColor: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    // filled: false,
+                                    // fillColor: Colors.white,
                                   ),
                                   onChanged: (value) {
                                     if (_formKey.currentState!.validate()) {
@@ -278,17 +281,17 @@ class _BmiCalcState extends State<BmiCalc> {
                                         value.startsWith('.') ||
                                         double.parse(value) > weightMax ||
                                         value.length > 6) {
-                                      return 'Błąd';
+                                      return '';
                                     }
                                   },
                                   controller: weightController,
                                   keyboardType: TextInputType.number,
+                                  style: TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      filled: true,
-                                      fillColor: Colors.white),
+                                    errorStyle: TextStyle(height: 0),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(5)),
+                                  ),
                                   onChanged: (value) {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() =>
