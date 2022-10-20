@@ -31,23 +31,24 @@ class _BmiCalcState extends State<BmiCalc> {
   }
 
   //function that returns BMI result in double datatype, also convert units to meters and kilograms
+  //if you want to add other measurement unit, you have to convert it using if statement as below
   double bmiResult(double personHeight, double personWeight) {
     if (personHeight == 0) {
       return 0.0;
     }
-    if (heightUnit != 0) {
-      personHeight = personHeight * 30.48;
+    if (heightUnit == 1) {
+      personHeight = personHeight * 30.48; //converting ft to cm
     }
-    if (weightUnit != 0) {
-      personWeight = personWeight * 0.45;
+    if (weightUnit == 1) {
+      personWeight = personWeight * 0.45; //converting lb to kg
     }
     return double.parse(
         (personWeight / pow(personHeight / 100, 2)).toStringAsFixed(2));
   }
 
-  //dropdownbutton function which controlls measurement units. Change sliders maxvalue depend on selected unit
+  //dropdownbutton function which controlls height measurement units. Change sliders maxvalue depend on selected unit
   void dropdownCallBackHeight(int? unit) {
-    if (unit != 0) {
+    if (unit == 1) {
       setState(() {
         heightUnit = 1;
         heightValue = 5;
@@ -64,9 +65,9 @@ class _BmiCalcState extends State<BmiCalc> {
     }
   }
 
-  //dropdownbutton function which controlls measurement units. Change sliders maxvalue depend on selected unit
+  //dropdownbutton function which controlls weight measurement units. Change sliders maxvalue depend on selected unit
   void dropdownCallBackWeight(int? unit) {
-    if (unit != 0) {
+    if (unit == 1) {
       setState(() {
         weightUnit = 1;
         weightValue = 120;
