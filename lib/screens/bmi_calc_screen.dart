@@ -35,7 +35,7 @@ class _BmiCalcState extends State<BmiCalc> {
   //if you want to add other measurement unit, you have to convert it using if statement as below
   double bmiResult(double personHeight, double personWeight) {
     if (personHeight == 0) {
-      return 0.0;
+      return 0.0; //handle situation of dividing 0 by 0
     }
     if (heightUnit == 1) {
       personHeight = personHeight * 30.48; //converting ft to cm
