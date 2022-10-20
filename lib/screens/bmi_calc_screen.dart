@@ -1,0 +1,292 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
+import '../widgets/bmi_icon.dart';
+
+class BmiCalc extends StatefulWidget {
+  const BmiCalc({super.key});
+
+  @override
+  State<BmiCalc> createState() => _BmiCalcState();
+}
+
+class _BmiCalcState extends State<BmiCalc> {
+  double heightValue = 160;
+  double weightValue = 60;
+  double heightMax = 250.00;
+  double weightMax = 200.00;
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  int heightUnit = 0;
+  int weightUnit = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    weightController.text = '60';
+    heightController.text = '160';
+  }
+
+  double bmiResult(double personHeight, double personWeight) {
+    if (heightUnit != 0) {
+      personHeight = personHeight * 30.48;
+    }
+    if (weightUnit != 0) {
+      personWeight = personWeight * 0.45;
+    }
+    return double.parse(
+        (personWeight / pow(personHeight / 100, 2)).toStringAsFixed(2));
+  }
+
+  //dropdownbutton function which controlls measurement units, change sliders maxvalue
+  void dropdownCallBackHeight(int? unit) {
+    if (unit != 0) {
+      setState(() {
+        heightUnit = 1;
+        heightValue = 5;
+        heightMax = 8;
+        heightController.text = '5';
+      });
+    } else {
+      setState(() {
+        heightUnit = 0;
+        heightValue = 160;
+        heightMax = 250;
+        heightController.text = '160';
+      });
+    }
+  }
+
+  void dropdownCallBackWeight(int? unit) {
+    if (unit != 0) {
+      setState(() {
+        weightUnit = 1;
+        weightValue = 120;
+        weightMax = 400;
+        weightController.text = '120';
+      });
+    } else {
+      setState(() {
+        weightUnit = 0;
+        weightValue = 60;
+        weightMax = 200;
+        weightController.text = '60';
+      });
+    }
+  }
+
+  String bmiGroup(double result) {
+    if (result < 16.0) {
+      return 'Wygłodzenie';
+    }
+    if (result >= 16 && result <= 16.9) {
+      return 'Wychudzenie';
+    }
+    if (result >= 17 && result <= 18.5) {
+      return 'Niedowaga';
+    }
+    if (result >= 18.6 && result <= 24.9) {
+      return 'Waga prawidłowa';
+    }
+    if (result >= 25 && result <= 29.9) {
+      return 'Nadwaga';
+    }
+    if (result >= 30 && result <= 34.9) {
+      return 'Otyłość I stopnia';
+    }
+    if (result >= 35 && result <= 39.9) {
+      return 'Otyłość II stopnia';
+    }
+    if (result >= 40) {
+      return 'Otyłość III stopnia';
+    }
+    return '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 37, 37, 37),
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            height: screenSize.height * 1,
+            child: Column(children: [
+              SizedBox(
+                height: MediaQuery.of(context).padding.top,
+              ),
+              const Text(
+                'Twoje BMI:',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white),
+              ),
+              Text(
+                '${bmiResult(heightValue, weightValue)}',
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white),
+              ),
+              Text(
+                bmiGroup(bmiResult(heightValue, weightValue)),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white),
+              ),
+              Container(
+                //color: Colors.pink,
+                height: screenSize.height * 0.55,
+                child: Row(
+                  children: [
+                    Expanded(flex: 1, child: SizedBox()),
+                    Expanded(
+                      flex: 3,
+                      child: BmiIcon(
+                        bmiResult(heightValue, weightValue),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: RotatedBox(
+                        quarterTurns: 3,
+                        child: Slider(
+                          value: heightValue,
+                          min: 0,
+                          max: heightMax,
+                          onChanged: (value) => setState(() {
+                            this.heightValue =
+                                double.parse(value.toStringAsFixed(2));
+                            heightController.text = value.toStringAsFixed(2);
+                          }),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Slider(
+                value: weightValue,
+                min: 0,
+                max: weightMax,
+                onChanged: (value) => setState(() {
+                  this.weightValue = double.parse(value.toStringAsFixed(2));
+                  weightController.text = value.toStringAsFixed(2);
+                }),
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Expanded(flex: 2, child: SizedBox()),
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            controller: heightController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              filled: true,
+                              fillColor: Colors.white,
+                            ),
+                            onChanged: (value) => setState(
+                                () => heightValue = double.parse(value)),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                              child: DropdownButton(
+                                dropdownColor: Colors.grey[700],
+                                items: [
+                                  DropdownMenuItem(
+                                    child: Text('cm',
+                                        style: TextStyle(color: Colors.white)),
+                                    value: 0,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'ft',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    value: 1,
+                                  ),
+                                ],
+                                value: heightUnit,
+                                onChanged: (value) =>
+                                    dropdownCallBackHeight(value),
+                              ),
+                            )),
+                        Expanded(flex: 2, child: SizedBox()),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 36,
+                  ),
+                  Container(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Expanded(flex: 2, child: SizedBox()),
+                        Expanded(
+                          flex: 2,
+                          child: TextFormField(
+                            controller: weightController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                filled: true,
+                                fillColor: Colors.white),
+                            onChanged: (value) => setState(
+                                () => weightValue = double.parse(value)),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            child: DropdownButton(
+                              dropdownColor: Colors.grey[700],
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text('kg',
+                                      style: TextStyle(color: Colors.white)),
+                                  value: 0,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text(
+                                    'lb',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  value: 1,
+                                ),
+                              ],
+                              value: weightUnit,
+                              onChanged: (value) =>
+                                  dropdownCallBackWeight(value),
+                            ),
+                          ),
+                        ),
+                        Expanded(flex: 2, child: SizedBox()),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+}
