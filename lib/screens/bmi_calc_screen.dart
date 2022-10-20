@@ -30,7 +30,8 @@ class _BmiCalcState extends State<BmiCalc> {
     heightController.text = '160';
   }
 
-  //function that returns BMI result in double datatype, also convert units to meters and kilograms
+  //function that returns BMI result in double datatype, also convert units to meters and kilograms.
+
   //if you want to add other measurement unit, you have to convert it using if statement as below
   double bmiResult(double personHeight, double personWeight) {
     if (personHeight == 0) {
