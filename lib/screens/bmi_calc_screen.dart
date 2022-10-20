@@ -221,8 +221,6 @@ class _BmiCalcState extends State<BmiCalc> {
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(5),
                                     ),
-                                    // filled: false,
-                                    // fillColor: Colors.white,
                                   ),
                                   onChanged: (value) {
                                     if (_formKey.currentState!.validate()) {
