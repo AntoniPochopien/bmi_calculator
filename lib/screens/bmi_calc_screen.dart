@@ -25,10 +25,12 @@ class _BmiCalcState extends State<BmiCalc> {
   @override
   void initState() {
     super.initState();
+    //initialy set textFileds to default visual value
     weightController.text = '60';
     heightController.text = '160';
   }
 
+  //function that returns BMI result in double datatype, also convert units to meters and kilograms
   double bmiResult(double personHeight, double personWeight) {
     if (personHeight == 0) {
       return 0.0;
@@ -43,7 +45,7 @@ class _BmiCalcState extends State<BmiCalc> {
         (personWeight / pow(personHeight / 100, 2)).toStringAsFixed(2));
   }
 
-  //dropdownbutton function which controlls measurement units, change sliders maxvalue
+  //dropdownbutton function which controlls measurement units. Change sliders maxvalue depend on selected unit
   void dropdownCallBackHeight(int? unit) {
     if (unit != 0) {
       setState(() {
@@ -62,6 +64,7 @@ class _BmiCalcState extends State<BmiCalc> {
     }
   }
 
+  //dropdownbutton function which controlls measurement units. Change sliders maxvalue depend on selected unit
   void dropdownCallBackWeight(int? unit) {
     if (unit != 0) {
       setState(() {
@@ -80,6 +83,7 @@ class _BmiCalcState extends State<BmiCalc> {
     }
   }
 
+  //this function returns BMI group name
   String bmiGroup(double result) {
     if (result < 16.0) {
       return 'Wygłodzenie';
@@ -114,7 +118,7 @@ class _BmiCalcState extends State<BmiCalc> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 37, 37, 37),
+        backgroundColor: const Color.fromARGB(255, 37, 37, 37),
         body: SingleChildScrollView(
           child: Container(
             width: double.infinity,
@@ -145,12 +149,11 @@ class _BmiCalcState extends State<BmiCalc> {
                       fontSize: 30,
                       color: Colors.white),
                 ),
-                Container(
-                  //color: Colors.pink,
+                SizedBox(
                   height: screenSize.height * 0.55,
                   child: Row(
                     children: [
-                      Expanded(flex: 1, child: SizedBox()),
+                      const Expanded(flex: 1, child: SizedBox()),
                       Expanded(
                         flex: 3,
                         child: BmiIcon(
@@ -166,7 +169,7 @@ class _BmiCalcState extends State<BmiCalc> {
                             min: 0,
                             max: heightMax,
                             onChanged: (value) => setState(() {
-                              this.heightValue =
+                              heightValue =
                                   double.parse(value.toStringAsFixed(2));
                               heightController.text = value.toStringAsFixed(2);
                             }),
@@ -181,7 +184,7 @@ class _BmiCalcState extends State<BmiCalc> {
                   min: 0,
                   max: weightMax,
                   onChanged: (value) => setState(() {
-                    this.weightValue = double.parse(value.toStringAsFixed(2));
+                    weightValue = double.parse(value.toStringAsFixed(2));
                     weightController.text = value.toStringAsFixed(2);
                   }),
                 ),
@@ -189,11 +192,11 @@ class _BmiCalcState extends State<BmiCalc> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 50,
                         child: Row(
                           children: [
-                            Expanded(flex: 2, child: SizedBox()),
+                            const Expanded(flex: 2, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: TextFormField(
@@ -223,46 +226,44 @@ class _BmiCalcState extends State<BmiCalc> {
                                     }
                                   }),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             Expanded(
-                                flex: 1,
-                                child: Container(
-                                  child: DropdownButton(
-                                    dropdownColor: Colors.grey[700],
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text('cm',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        value: 0,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          'ft',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        value: 1,
-                                      ),
-                                    ],
-                                    value: heightUnit,
-                                    onChanged: (value) =>
-                                        dropdownCallBackHeight(value),
+                              flex: 1,
+                              child: DropdownButton(
+                                dropdownColor: Colors.grey[700],
+                                items: const [
+                                  DropdownMenuItem(
+                                    child: Text('cm',
+                                        style: TextStyle(color: Colors.white)),
+                                    value: 0,
                                   ),
-                                )),
-                            Expanded(flex: 2, child: SizedBox()),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'ft',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    value: 1,
+                                  ),
+                                ],
+                                value: heightUnit,
+                                onChanged: (value) =>
+                                    dropdownCallBackHeight(value),
+                              ),
+                            ),
+                            const Expanded(flex: 2, child: SizedBox()),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 36,
                       ),
-                      Container(
+                      SizedBox(
                         height: 50,
                         child: Row(
                           children: [
-                            Expanded(flex: 2, child: SizedBox()),
+                            const Expanded(flex: 2, child: SizedBox()),
                             Expanded(
                               flex: 2,
                               child: TextFormField(
@@ -293,36 +294,33 @@ class _BmiCalcState extends State<BmiCalc> {
                                     }
                                   }),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                             Expanded(
                               flex: 1,
-                              child: Container(
-                                child: DropdownButton(
-                                  dropdownColor: Colors.grey[700],
-                                  items: [
-                                    DropdownMenuItem(
-                                      child: Text('kg',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      value: 0,
+                              child: DropdownButton(
+                                dropdownColor: Colors.grey[700],
+                                items: const [
+                                  DropdownMenuItem(
+                                    child: Text('kg',
+                                        style: TextStyle(color: Colors.white)),
+                                    value: 0,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      'lb',
+                                      style: TextStyle(color: Colors.white),
                                     ),
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        'lb',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      value: 1,
-                                    ),
-                                  ],
-                                  value: weightUnit,
-                                  onChanged: (value) =>
-                                      dropdownCallBackWeight(value),
-                                ),
+                                    value: 1,
+                                  ),
+                                ],
+                                value: weightUnit,
+                                onChanged: (value) =>
+                                    dropdownCallBackWeight(value),
                               ),
                             ),
-                            Expanded(flex: 2, child: SizedBox()),
+                            const Expanded(flex: 2, child: SizedBox()),
                           ],
                         ),
                       ),

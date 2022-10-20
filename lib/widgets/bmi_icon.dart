@@ -63,7 +63,7 @@ class BmiIcon extends StatelessWidget {
           width: 300,
         );
       }
-      return Icon(Icons.apple_outlined);
+      return const Icon(Icons.apple_outlined);
     }
 
     return Center(
