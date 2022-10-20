@@ -207,7 +207,7 @@ class _BmiCalcState extends State<BmiCalc> {
                                         value.contains(RegExp(
                                             r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
                                         double.parse(value) > heightMax ||
-                                        value.length > 5) {
+                                        value.length > 6) {
                                       return 'Błąd';
                                     }
                                   },
@@ -275,7 +275,7 @@ class _BmiCalcState extends State<BmiCalc> {
                                             r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
                                         value.startsWith('.') ||
                                         double.parse(value) > weightMax ||
-                                        value.length > 5) {
+                                        value.length > 6) {
                                       return 'Błąd';
                                     }
                                   },
