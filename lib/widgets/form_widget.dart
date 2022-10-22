@@ -60,8 +60,7 @@ class _FormWidgetState extends State<FormWidget> {
                       ),
                       onChanged: (value) {
                         if (_formKey.currentState!.validate()) {
-                          data.heightValue = double.parse(value);
-                          data.callNotifyListenersFun();
+                          data.setHeightValue(double.parse(value));
                         }
                       }),
                 ),
@@ -89,7 +88,6 @@ class _FormWidgetState extends State<FormWidget> {
                       value: data.heightUnit,
                       onChanged: (value) {
                         data.dropdownCallBackHeight(value);
-                        data.callNotifyListenersFun();
                       }),
                 ),
                 const Expanded(flex: 2, child: SizedBox()),
@@ -129,8 +127,7 @@ class _FormWidgetState extends State<FormWidget> {
                       ),
                       onChanged: (value) {
                         if (_formKey.currentState!.validate()) {
-                          data.weightValue = double.parse(value);
-                          data.notifyListeners();
+                          data.setWeightValue(double.parse(value));
                         }
                       }),
                 ),
@@ -158,7 +155,6 @@ class _FormWidgetState extends State<FormWidget> {
                       value: data.weightUnit,
                       onChanged: (value) {
                         data.dropdownCallBackWeight(value);
-                        data.notifyListeners();
                       }),
                 ),
                 const Expanded(flex: 2, child: SizedBox()),

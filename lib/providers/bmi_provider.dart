@@ -25,7 +25,13 @@ class BmiProvider with ChangeNotifier {
         (personWeight / pow(personHeight / 100, 2)).toStringAsFixed(2));
   }
 
-  void callNotifyListenersFun() {
+  void setWeightValue(double value) {
+    weightValue = value;
+    notifyListeners();
+  }
+
+  void setHeightValue(double value) {
+    heightValue = value;
     notifyListeners();
   }
 
