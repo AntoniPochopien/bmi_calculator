@@ -41,9 +41,9 @@ class _FormWidgetState extends State<FormWidget> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            !RegExp('^[0-9.]+').hasMatch(value) ||
                             value.contains(RegExp(
                                 r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
+                            value.startsWith('.') ||
                             double.parse(value) > data.heightMax ||
                             value.length > 6) {
                           return '';
@@ -108,7 +108,6 @@ class _FormWidgetState extends State<FormWidget> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            !RegExp('^[0-9.]+').hasMatch(value) ||
                             value.contains(RegExp(
                                 r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
                             value.startsWith('.') ||
