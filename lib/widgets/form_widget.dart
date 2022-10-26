@@ -23,6 +23,16 @@ class _FormWidgetState extends State<FormWidget> {
     Provider.of<BmiProvider>(widget.ctx).weightController.text = '60';
   }
 
+  //check if value contains more than 2 dots
+  bool validateDots(String x) {
+    int dotsCount = 0;
+    x.split('').forEach((element) {
+      if (element.contains('.')) dotsCount += 1;
+    });
+    if (dotsCount >= 2) return true;
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<BmiProvider>(context);
@@ -44,6 +54,9 @@ class _FormWidgetState extends State<FormWidget> {
                             value.contains(RegExp(
                                 r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
                             value.startsWith('.') ||
+                            validateDots(
+                                value) || //check if value contains more than 2 dots
+                            value.contains(' ') ||
                             double.parse(value) > data.heightMax ||
                             value.length > 6) {
                           return '';
@@ -110,6 +123,9 @@ class _FormWidgetState extends State<FormWidget> {
                             value.isEmpty ||
                             value.contains(RegExp(
                                 r'[a-zA-Z!@#$%^&*()\-_,?":{}|<>+=~`]')) ||
+                            value.contains(' ') ||
+                            validateDots(
+                                value) || //check if value contains more than 2 dots
                             value.startsWith('.') ||
                             double.parse(value) > data.weightMax ||
                             value.length > 6) {
